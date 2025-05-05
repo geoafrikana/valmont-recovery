@@ -1,0 +1,10 @@
+[project]
+name = "backup-ovh"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "boto3==1.35",
+    "python-dotenv>=1.1.0",
+]

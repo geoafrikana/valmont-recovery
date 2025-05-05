@@ -1,0 +1,61 @@
+version: '3.5'
+services:
+  valmont_db:
+    container_name: postgis
+    image: postgis/postgis:latest
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${db_user}
+      POSTGRES_PASSWORD: ${db_password}
+      POSTGRES_DB: ${db_name}
+    networks:
+      - valmont_network
+    volumes:
+      - valmont_db_data:/var/lib/postgresql/data
+  pg_restore:
+    image: postgres
+    depends_on:
+      - valmont_db
+    entrypoint: |
+      bash -c "
+      echo 'Waiting for PostgresQL to start...'
+      until pg_isready -h valmont_db -p 5432 -U ${db_user}; do
+        sleep 1
+      done;
+      echo 'PostgresQL is up! Running pg_restore...';
+      pg_restore -F c -v -c -C -O -h valmont_db -p 5432 -U ${db_user} -d ${db_name} /db.backup
+      "
+    environment:
+      PGPASSWORD: ${db_password}
+    networks:
+      - valmont_network
+    volumes:
+      - ./db.backup:/db.backup
+    command: -p 5433
+    ports:
+      - "5433:5433"
+
+
+  valmont_geoserver:
+    container_name: geoserver
+    image: kartoza/geoserver:${GEOSERVER_VERSION}
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      GEOSERVER_ADMIN_PASSWORD: ${geoserver_admin_password}
+      GEOSERVER_ADMIN_USER: ${geoserver_user}
+    networks:
+      - valmont_network
+    volumes:
+      - ./valmont_workspace_backup:/opt/geoserver/data_dir/workspaces/valmont
+
+networks:
+  valmont_network:
+    name: valmont_network
+
+volumes:
+  valmont_db_data:
+    name: valmont_db_data

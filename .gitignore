@@ -1,0 +1,9 @@
+deprecated/
+.env
+.venv/
+
+# db.backup and valmont_workspace 
+# are stored in a secret place on
+# google drive
+valmont_workspace_backup.zip
+db.backup

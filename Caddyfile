@@ -1,0 +1,7 @@
+geo.val-des-monts.aponia.ca {
+        reverse_proxy :8080
+}
+
+159.203.40.32 {
+        reverse_proxy :8080
+}

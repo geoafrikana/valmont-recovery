@@ -47,10 +47,14 @@ services:
     environment:
       GEOSERVER_ADMIN_PASSWORD: ${geoserver_admin_password}
       GEOSERVER_ADMIN_USER: ${geoserver_user}
+      SAMPLE_DATA: true
+      HTTP_PROXY_NAME: geo.val-des-monts.aponia.ca
+      HTTP_SCHEME: https
     networks:
       - valmont_network
     volumes:
       - ./valmont_workspace_backup:/opt/geoserver/data_dir/workspaces/valmont
+      - ./raster:/opt/geoserver/data_dir/raster
 
 networks:
   valmont_network:

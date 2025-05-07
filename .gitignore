@@ -8,3 +8,5 @@ deprecated/
 valmont_workspace_backup.zip
 db.backup
 raster.zip
+data/
+leaflet_test/

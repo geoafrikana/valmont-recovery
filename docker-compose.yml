@@ -25,14 +25,14 @@ services:
         sleep 1
       done;
       echo 'PostgresQL is up! Running pg_restore...';
-      pg_restore -F c -v -c -C -O -h valmont_db -p 5432 -U ${db_user} -d ${db_name} /db.backup
+      psql -h valmont_db -p 5432 -U ${db_user} -d ${db_name} -f /db.sql
       "
     environment:
       PGPASSWORD: ${db_password}
     networks:
       - valmont_network
     volumes:
-      - ./db.backup:/db.backup
+      - ./db.sql:/db.sql
     command: -p 5433
     ports:
       - "5433:5433"

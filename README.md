@@ -30,11 +30,11 @@ pwd
 ```
 
 ## 📦 3. Upload workspace and raster backup files
-Download the database, workspace and raster backups from Google Drive to your local computer. Then upload them to your project folder on your server.
+Download the database, workspace and raster backups from [Google Drive](https://colab.research.google.com/drive/1_9mgDJHgBAK5PuApDJEIfZMnwKtsT6Lt?usp=sharing) to your local computer. Then upload them to your project folder on your server.
 ```bash
 scp /local/path/to/valmont_workspace_backup.zip username@server_ip:<absolute_project_path>/valmont_workspace_backup.zip
 scp /local/path/to/raster.zip username@server_ip:<absolute_project_path>/raster.zip
-scp /local/path/to/db.backup username@server_ip:<absolute_project_path>/db.backup
+scp /local/path/to/db.sql username@server_ip:<absolute_project_path>/db.sql
 ```
 
 ### 4. Unzip the project on the server:
@@ -43,6 +43,20 @@ Back to the server, return to the project directory and unzip the workspace back
 ```bash
 unzip valmont_workspace_backup.zip -d valmont_workspace_backup
 unzip raster.zip -d raster
+```
+⚠️ Warning:
+Depending on how the ZIP file was created, the first command may result in nested folders, like:
+
+```bash
+./valmont_workspace_backup/valmont_workspace_backup/
+```
+
+This structure will break the GeoServer restore process, as it expects the actual workspace contents directly inside ./valmont_workspace_backup.
+
+✅ Check the folder after unzipping. If nested, flatten it using:
+```bash
+mv valmont_workspace_backup/valmont_workspace_backup/* valmont_workspace_backup/
+rmdir valmont_workspace_backup/valmont_workspace_backup
 ```
 
 ---

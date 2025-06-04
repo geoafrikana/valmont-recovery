@@ -41,6 +41,8 @@ services:
   valmont_geoserver:
     container_name: geoserver
     image: kartoza/geoserver:${GEOSERVER_VERSION}
+    depends_on:
+      - valmont_db
     restart: unless-stopped
     ports:
       - "8080:8080"

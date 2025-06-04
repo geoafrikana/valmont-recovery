@@ -57,6 +57,7 @@ services:
     volumes:
       - ./valmont_workspace_backup:/opt/geoserver/data_dir/workspaces/valmont
       - ./raster:/opt/geoserver/data_dir/raster
+      - ./global.xml:/opt/geoserver/data_dir/global.xml
 
 networks:
   valmont_network:
